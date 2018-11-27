@@ -4,10 +4,15 @@ var rl = readline.createInterface(process.stdin, process.stdout);
 
 class Snake {
    move(userInput,env){
-    env.matrix[0][0] = 1;
+    if( userInput === "up"){
+       this.pos[0]["dir"] = "up"; 
+       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 0
+       this.pos[0]["x"] -= 1;
+       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 1
+    }
    }
-   constructor(n,r){
-    this.pos = (n,r);
+   constructor(x,y){
+    this.pos = [{x:x,y:y,dir:"left"}];
    } 
 }
 
@@ -26,8 +31,8 @@ class Enviroment{
 }
 
 const env = new Enviroment(10,10);
-const snake = new Snake();
-const moves = ["up","down","right","left"]
+const snake = new Snake(4,4);
+const moves = ["up"]//,"down","right","left"]
 
 function iterate(){
     var moveIdx = Math.floor( Math.random() * moves.length );
