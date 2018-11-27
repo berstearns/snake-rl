@@ -27,13 +27,14 @@ class Enviroment{
 
 const env = new Enviroment(10,10);
 const snake = new Snake();
+const moves = ["up","down","right","left"]
 
-var userInput = "up";
-while(1){
-    rl.question("what is your name? ", function(answer){
-        console.log(answer);
-    });
+function iterate(){
+    var moveIdx = Math.floor( Math.random() * moves.length );
+    var userInput = moves[moveIdx];  
     snake.move(userInput,env);
     console.log(env.matrix);
-    break
+    console.log(userInput);
 }
+setInterval(iterate,4000);
+/**/
