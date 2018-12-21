@@ -8,9 +8,32 @@ class Snake {
        this.pos[0]["dir"] = "up"; 
        env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 0
        this.pos[0]["x"] -= 1;
-       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 1
+       if( this.pos[0]["x"] < 0 ){
+            env.isGameOver = 1;
+        }
+       else{
+            env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 1
+       }
     }
-   }
+    if( userInput === "down"){
+       this.pos[0]["dir"] = "down"; 
+       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 0
+       this.pos[0]["x"] += 1;
+       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 1
+   } 
+    if( userInput === "left"){
+       this.pos[0]["dir"] = "left"; 
+       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 0
+       this.pos[0]["y"] -= 1;
+       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 1
+   } 
+    if( userInput === "right"){
+       this.pos[0]["dir"] = "right"; 
+       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 0
+       this.pos[0]["y"] += 1;
+       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 1
+   } 
+  }
    constructor(x,y){
     this.pos = [{x:x,y:y,dir:"left"}];
    } 
@@ -35,11 +58,14 @@ const snake = new Snake(4,4);
 const moves = ["up"]//,"down","right","left"]
 
 function iterate(){
-    var moveIdx = Math.floor( Math.random() * moves.length );
-    var userInput = moves[moveIdx];  
-    snake.move(userInput,env);
-    console.log(env.matrix);
-    console.log(userInput);
+    if(env.isGameOver){ clearInterval(callerId);} 
+    else{
+        var moveIdx = Math.floor( Math.random() * moves.length );
+        var userInput = moves[moveIdx];  
+        snake.move(userInput,env);
+        console.log(env.matrix);
+        console.log(userInput);
+    }
 }
-setInterval(iterate,4000);
+const callerId = setInterval(iterate,4000);
 /**/
