@@ -3,4 +3,14 @@
 	{
 		'situation':'solved'
 	}
+	"adding scores":
+	{
+		"situation":"open",
+		"context":
+		"
+		 the game involves getting food on the env,
+		 score adds +1 everytime snake moves to a
+		 cell that has food.https://spranesh.github.io/rl-snake/
+		"
+	}
 }

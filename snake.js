@@ -18,18 +18,24 @@ class Snake {
        this.pos[0]["dir"] = userInput; 
        env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 0
        this.pos[0][axis] += n_steps
-       console.log(this.pos[0][axis])
-       console.log(axis_min, axis_max)
+       //console.log(this.pos[0][axis])
+       //console.log(axis_min, axis_max)
        if( this.pos[0][axis] < axis_min || 
 	       this.pos[0][axis] > axis_max  ){
             env.isGameOver = 1;
         }
        else{
+	if(env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] == 2)
+	{
+		this.score+=1
+		print(this.score)
+	}
             env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 1
        }
 }
    constructor(x,y){
     this.pos = [{x:x,y:y,dir:"left"}];
+    this.score = 0;
    } 
 }
 
@@ -39,6 +45,9 @@ class Enviroment{
         for(var i=0; i<n ;++i){
             matrix.push(new Array(r).fill(0));
         }
+	var foodY = Math.floor( Math.random() * matrix.length );
+	var foodX = Math.floor( Math.random() * matrix[0].length );
+	matrix[foodY][foodX] = 2
         return matrix
     }
     constructor(n,r){
@@ -61,6 +70,7 @@ function iterate(){
 	snake.move(userInput,env);
 	if(env.isGameOver){ 
 	    console.log("GAME OVER");
+	    print(snake.score)
 	    clearInterval(callerId);
     	} 
 	else{
