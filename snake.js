@@ -36,7 +36,10 @@ class Snake {
        }
 }
    constructor(x,y){
-    this.pos = [{x:x,y:y,dir:"left"}];
+    this.pos = {
+	    "body":[{x:x,y:y}],
+	    "dir":"left"
+    };
     this.score = 0;
    } 
 }
