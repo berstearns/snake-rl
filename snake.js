@@ -47,7 +47,6 @@ class Enviroment{
         for(var i=0; i<n ;++i){
             matrix.push(new Array(r).fill(0));
         }
-	this.generate_food()
         return matrix
     }
     constructor(n,r){
@@ -57,11 +56,14 @@ class Enviroment{
 		y:{min: 0, max:r-1}
 	}
         this.matrix= this.init_matrix(n,r);
+	for(const x of Array(50).keys()){
+		this.generate_food();
+	}
     }
     generate_food(){
 	var foodY = Math.floor( Math.random() * this.matrix.length );
 	var foodX = Math.floor( Math.random() * this.matrix[0].length );
-	while(this.matrix[FoodY][FoodX] != 1){
+	while(this.matrix[foodY][foodX] == 1){
 		foodY = Math.floor( Math.random() * this.matrix.length );
 		foodX = Math.floor( Math.random() * this.matrix[0].length );
 	}
