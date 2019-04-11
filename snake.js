@@ -18,21 +18,23 @@ class Snake {
        // how many steps the snake will make, for the moment just one step per move
        var n_steps = direction_map[userInput][1]	
 
-       this.pos[0]["dir"] = userInput; 
-       env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 0
-       this.pos[0][axis] += n_steps
+       this.pos["dir"] = userInput; 
+       console.log(this.pos)
+       env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] = 0
+       this.pos["body"][0][axis] += n_steps
 
-       if( this.pos[0][axis] < axis_min || 
-	       this.pos[0][axis] > axis_max  ){
+       if( this.pos["body"][0][axis] < axis_min || 
+	       this.pos["body"][0][axis] > axis_max  ){
             env.isGameOver = 1;
         }
        else{
-	if(env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] == 2)
+	if(env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] == 2)
 	{
 		this.score+=1
+		//this.pos"body".push(this.pos"body"[this.pos"body".length]);
 		console.log(this.score)
 	}
-            env.matrix[this.pos[0]["x"]][this.pos[0]["y"]] = 1
+            env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] = 1
        }
 }
    constructor(x,y){
