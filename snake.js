@@ -20,8 +20,19 @@ class Snake {
 
        this.pos["dir"] = userInput; 
        console.log(this.pos)
-       env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] = 0
-       this.pos["body"][0][axis] += n_steps
+       var tail_idx = this.pos["body"].length - 1;
+       var previous_tail =  this.pos["body"][tail_idx]
+       // erase current snake, update snake positions, re-write in matrix
+       for( var idx in this.pos["body"] ){
+           env.matrix[this.pos["body"][idx]["y"]][this.pos["body"][idx]["x"]]=0
+	   this.pos["body"][idx][axis] += n_steps
+       }
+       for( var idx in this.pos["body"] ){
+           env.matrix[this.pos["body"][idx]["y"]][this.pos["body"][idx]["x"]]=1
+       }
+       //
+       //env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] = 0
+       //this.pos["body"][0][axis] += n_steps
 
        if( this.pos["body"][0][axis] < axis_min || 
 	       this.pos["body"][0][axis] > axis_max  ){
@@ -31,7 +42,8 @@ class Snake {
 	if(env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] == 2)
 	{
 		this.score+=1
-		//this.pos"body".push(this.pos"body"[this.pos"body".length]);
+	        this.pos["body"].push(previous_tail);
+		env.matrix[previous_tail["y"]][previous_tail["x"]] = 1
 		console.log(this.score)
 	}
             env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] = 1
