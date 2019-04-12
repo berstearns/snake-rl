@@ -17,43 +17,41 @@ class Snake {
        var axis_max = env.ranges[axis]["max"]
        // how many steps the snake will make, for the moment just one step per move
        var n_steps = direction_map[userInput][1]	
-
+       //
        this.pos["dir"] = userInput; 
-       console.log(this.pos)
        var tail_idx = this.pos["body"].length - 1;
-       var previous_tail =  this.pos["body"][tail_idx]
-       // erase current snake, update snake positions, re-write in matrix
+       var previous_tail =  {...this.pos["body"][tail_idx]}
+       // erase current snake, update snake positions
        for( var idx in this.pos["body"] ){
-           env.matrix[this.pos["body"][idx]["y"]][this.pos["body"][idx]["x"]]=0
+           env.matrix[this.pos["body"][idx]["x"]][this.pos["body"][idx]["y"]]=0
 	   this.pos["body"][idx][axis] += n_steps
        }
+	if(env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] == 2)
+	{
+		this.score+=1
+                console.log(previous_tail);
+	        this.pos["body"].push(previous_tail);
+		//env.matrix[previous_tail["y"]][previous_tail["x"]] = 1
+		console.log(this.score)
+	}
+       // re-write in matrix
        for( var idx in this.pos["body"] ){
-           env.matrix[this.pos["body"][idx]["y"]][this.pos["body"][idx]["x"]]=1
+           env.matrix[this.pos["body"][idx]["x"]][this.pos["body"][idx]["y"]]=1
        }
        //
        //env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] = 0
        //this.pos["body"][0][axis] += n_steps
-
        if( this.pos["body"][0][axis] < axis_min || 
 	       this.pos["body"][0][axis] > axis_max  ){
             env.isGameOver = 1;
         }
-       else{
-	if(env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] == 2)
-	{
-		this.score+=1
-	        this.pos["body"].push(previous_tail);
-		env.matrix[previous_tail["y"]][previous_tail["x"]] = 1
-		console.log(this.score)
-	}
-            env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] = 1
-       }
 }
-   constructor(x,y){
+   constructor(x,y,env){
     this.pos = {
 	    "body":[{x:x,y:y}],
 	    "dir":"left"
     };
+    env.matrix[y][x] = 1;
     this.score = 0;
    } 
 }
@@ -89,7 +87,8 @@ class Enviroment{
 }
 
 const env = new Enviroment(10,10);
-const snake = new Snake(4,4);
+const snake = new Snake(4,4,env);
+console.log(env.matrix);
 const moves = ["up","down","right","left"]
 
 function iterate(){
@@ -105,6 +104,7 @@ function iterate(){
 		console.log(userInput);
 		console.log(env.matrix);
 	}
+	//env.isGameOver = 1
 }
 const callerId = setInterval(iterate,400);
 /**/
