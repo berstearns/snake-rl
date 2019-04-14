@@ -22,9 +22,16 @@ class Snake {
        var tail_idx = this.pos["body"].length - 1;
        var previous_tail =  {...this.pos["body"][tail_idx]}
        // erase current snake, update snake positions
-       for( var idx in this.pos["body"] ){
+       console.log(axis)
+       for( var reverse_idx in this.pos["body"].reverse() ){
+           idx = this.pos["body"].length - 1 - reverse_idx; 
            env.matrix[this.pos["body"][idx]["x"]][this.pos["body"][idx]["y"]]=0
-	   this.pos["body"][idx][axis] += n_steps
+           if(idx==0){
+               this.pos["body"][idx][axis] += n_steps;
+           }
+           else{
+            this.pos["body"][idx] = {...this.pos["body"][idx-1]}
+           }
        }
 	if(env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] == 2)
 	{
@@ -86,14 +93,29 @@ class Enviroment{
     }
 }
 
-const env = new Enviroment(10,10);
+const env = new Enviroment(5,5);
 const snake = new Snake(4,4,env);
 console.log(env.matrix);
-const moves = ["up","down","right","left"]
+var opposite_directions = {
+        "up":"down",
+        "down":"up",
+        "right":"left",
+        "left":"right",
+}
 
-function iterate(){
-	var moveIdx = Math.floor( Math.random() * moves.length );
-	var userInput = moves[moveIdx];  
+
+function iterate(iii,lastMove){
+        console.log("iteration : ",iii);
+        iii+=1;
+        if(iii === 10){process.exit();}
+        var iteration_possible_moves = ["up","down","right","left"]
+        if(opposite_directions[lastMove]){
+            iteration_possible_moves.splice(
+                iteration_possible_moves.indexOf(opposite_directions[lastMove]),1
+            );
+        }
+	var moveIdx = Math.floor( Math.random() * iteration_possible_moves.length );
+	var userInput = iteration_possible_moves[moveIdx];  
 	snake.move(userInput,env);
 	if(env.isGameOver){ 
 	    console.log("GAME OVER");
@@ -105,6 +127,10 @@ function iterate(){
 		console.log(env.matrix);
 	}
 	//env.isGameOver = 1
+        return iterate(iii,userInput)
 }
-const callerId = setInterval(iterate,400);
+var iii = 1;
+iterate(iii);
+
+//const callerId = setInterval(function(){iterate(iii)},400);
 /**/
