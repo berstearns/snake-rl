@@ -22,7 +22,7 @@ class Snake {
        var tail_idx = this.pos["body"].length - 1;
        var previous_tail =  {...this.pos["body"][tail_idx]}
        // erase current snake, update snake positions
-       console.log("snake before", this.pos["body"]);
+       //console.log("snake before", this.pos["body"]);
        for( var idx in this.pos["body"] ){
            idx = parseInt(idx);
            var len = parseInt(this.pos["body"].length);
@@ -35,11 +35,11 @@ class Snake {
            else{
             this.pos["body"][reverse_idx] = {...this.pos["body"][reverse_idx-1]}
            }
-           console.log("idx : ",reverse_idx," ",this.pos["body"])
+           //console.log("idx : ",reverse_idx," ",this.pos["body"])
        }
 
-       console.log("after cleaning ",env.matrix);
-       console.log("action ",userInput);
+       //console.log("after cleaning ",env.matrix);
+       //console.log("action ",userInput);
        // check if next step ends game or not, else update env matrix and snake
        if( this.pos["body"][0][axis] < axis_min || 
 	       this.pos["body"][0][axis] > axis_max  ){
@@ -47,16 +47,16 @@ class Snake {
         }
        else{
            var next_head_cell_val = env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]]
-           console.log("cell val", next_head_cell_val);
+           //console.log("cell val", next_head_cell_val);
            if(next_head_cell_val == 2)
            {
                     this.score+=1
-                    console.log(previous_tail);
+                    //console.log(previous_tail);
                     this.pos["body"].push(previous_tail);
                     //env.matrix[previous_tail["y"]][previous_tail["x"]] = 1
                     //console.log(this.score)
            }
-           console.log("snake after", this.pos["body"]);
+           //console.log("snake after", this.pos["body"]);
            // re-write in matrix
            for( var idx in this.pos["body"] ){
                env.matrix[this.pos["body"][idx]["x"]][this.pos["body"][idx]["y"]]=1
@@ -103,7 +103,7 @@ class Enviroment{
     }
 }
 
-const env = new Enviroment(5,5);
+const env = new Enviroment(10,10);
 const snake = new Snake(4,4,env);
 console.log(env.matrix);
 var opposite_directions = {
@@ -117,7 +117,7 @@ var opposite_directions = {
 function iterate(iii,lastMove,env){
         console.log("iteration : ",iii);
         iii+=1;
-        if(iii === 10){process.exit();}
+        if(iii === 1000000){process.exit();}
         var iteration_possible_moves = ["up","down","right","left"]
         if(opposite_directions[lastMove]){
             iteration_possible_moves.splice(
