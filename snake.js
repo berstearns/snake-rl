@@ -22,36 +22,46 @@ class Snake {
        var tail_idx = this.pos["body"].length - 1;
        var previous_tail =  {...this.pos["body"][tail_idx]}
        // erase current snake, update snake positions
-       console.log(axis)
-       for( var reverse_idx in this.pos["body"].reverse() ){
-           idx = this.pos["body"].length - 1 - reverse_idx; 
-           env.matrix[this.pos["body"][idx]["x"]][this.pos["body"][idx]["y"]]=0
-           if(idx==0){
-               this.pos["body"][idx][axis] += n_steps;
+       console.log("snake before", this.pos["body"]);
+       for( var idx in this.pos["body"] ){
+           idx = parseInt(idx);
+           var len = parseInt(this.pos["body"].length);
+           var reverse_idx = len  - 1 - idx; 
+           env.matrix[this.pos["body"][reverse_idx]["x"]][this.pos["body"][reverse_idx]["y"]]=0
+           if(reverse_idx==0){
+               //console.log("first : ",axis,n_steps,this.pos["body"][idx])
+               this.pos["body"][reverse_idx][axis] += n_steps;
            }
            else{
-            this.pos["body"][idx] = {...this.pos["body"][idx-1]}
+            this.pos["body"][reverse_idx] = {...this.pos["body"][reverse_idx-1]}
            }
+           console.log("idx : ",reverse_idx," ",this.pos["body"])
        }
-	if(env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] == 2)
-	{
-		this.score+=1
-                console.log(previous_tail);
-	        this.pos["body"].push(previous_tail);
-		//env.matrix[previous_tail["y"]][previous_tail["x"]] = 1
-		console.log(this.score)
-	}
-       // re-write in matrix
-       for( var idx in this.pos["body"] ){
-           env.matrix[this.pos["body"][idx]["x"]][this.pos["body"][idx]["y"]]=1
-       }
-       //
-       //env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]] = 0
-       //this.pos["body"][0][axis] += n_steps
+
+       console.log("after cleaning ",env.matrix);
+       console.log("action ",userInput);
+       // check if next step ends game or not, else update env matrix and snake
        if( this.pos["body"][0][axis] < axis_min || 
 	       this.pos["body"][0][axis] > axis_max  ){
             env.isGameOver = 1;
         }
+       else{
+           var next_head_cell_val = env.matrix[this.pos["body"][0]["x"]][this.pos["body"][0]["y"]]
+           console.log("cell val", next_head_cell_val);
+           if(next_head_cell_val == 2)
+           {
+                    this.score+=1
+                    console.log(previous_tail);
+                    this.pos["body"].push(previous_tail);
+                    //env.matrix[previous_tail["y"]][previous_tail["x"]] = 1
+                    //console.log(this.score)
+           }
+           console.log("snake after", this.pos["body"]);
+           // re-write in matrix
+           for( var idx in this.pos["body"] ){
+               env.matrix[this.pos["body"][idx]["x"]][this.pos["body"][idx]["y"]]=1
+           }
+       }
 }
    constructor(x,y,env){
     this.pos = {
@@ -104,7 +114,7 @@ var opposite_directions = {
 }
 
 
-function iterate(iii,lastMove){
+function iterate(iii,lastMove,env){
         console.log("iteration : ",iii);
         iii+=1;
         if(iii === 10){process.exit();}
@@ -120,17 +130,17 @@ function iterate(iii,lastMove){
 	if(env.isGameOver){ 
 	    console.log("GAME OVER");
 	    console.log(snake.score)
-	    clearInterval(callerId);
+            process.exit();
+	    //clearInterval(callerId);
     	} 
 	else{
-		console.log(userInput);
 		console.log(env.matrix);
 	}
 	//env.isGameOver = 1
-        return iterate(iii,userInput)
+        return iterate(iii,userInput,env)
 }
 var iii = 1;
-iterate(iii);
+iterate(iii,null,env);
 
 //const callerId = setInterval(function(){iterate(iii)},400);
 /**/
