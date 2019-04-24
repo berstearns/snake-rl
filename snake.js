@@ -56,6 +56,10 @@ class Snake {
                     //env.matrix[previous_tail["y"]][previous_tail["x"]] = 1
                     //console.log(this.score)
            }
+           if(next_head_cell_val == 1)
+           {
+            env.isGameOver = 1;
+           }
            //console.log("snake after", this.pos["body"]);
            // re-write in matrix
            for( var idx in this.pos["body"] ){
@@ -130,13 +134,12 @@ function iterate(iii,lastMove,env){
 	if(env.isGameOver){ 
 	    console.log("GAME OVER");
 	    console.log(snake.score)
+            console.log(userInput);
             process.exit();
-	    //clearInterval(callerId);
     	} 
 	else{
 		console.log(env.matrix);
 	}
-	//env.isGameOver = 1
         return iterate(iii,userInput,env)
 }
 var iii = 1;
