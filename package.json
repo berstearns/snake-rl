@@ -1,0 +1,12 @@
+{
+  "name": "bernardo",
+  "version": "1.0.0",
+  "description": "snake-rl project",
+  "main": "snake.js",
+  "repository": "https://github.com/berstearns/snake-rl.git",
+  "author": "bernardo.stearns@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^1.1.0"
+  }
+}
