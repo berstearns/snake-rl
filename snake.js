@@ -1,4 +1,6 @@
 const readline = require('readline');
+const tf = require('@tensorflow/tfjs-node');
+
 var rl = readline.createInterface(process.stdin, process.stdout);
 
 
@@ -117,7 +119,12 @@ var opposite_directions = {
         "left":"right",
 }
 
-
+function RL(lastState, possible_moves){
+    var moveIdx = Math.floor( Math.random() * possible_moves.length );
+    var userInput = possible_moves[moveIdx];  
+    var next_move = userInput;
+    return next_move
+}
 function iterate(iii,lastMove,env){
         console.log("iteration : ",iii);
         iii+=1;
@@ -128,19 +135,18 @@ function iterate(iii,lastMove,env){
                 iteration_possible_moves.indexOf(opposite_directions[lastMove]),1
             );
         }
-	var moveIdx = Math.floor( Math.random() * iteration_possible_moves.length );
-	var userInput = iteration_possible_moves[moveIdx];  
-	snake.move(userInput,env);
+        var next_move = RL(env.matrix, iteration_possible_moves);
+	snake.move(next_move,env);
 	if(env.isGameOver){ 
 	    console.log("GAME OVER");
 	    console.log(snake.score)
-            console.log(userInput);
+            console.log(next_move);
             process.exit();
     	} 
 	else{
 		console.log(env.matrix);
 	}
-        return iterate(iii,userInput,env)
+        return iterate(iii,next_move,env)
 }
 var iii = 1;
 iterate(iii,null,env);
