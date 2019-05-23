@@ -1,0 +1,6 @@
+node_modules/
+v/
+plans.org
+plans.org~
+qlearning.py
+yarn.lock
